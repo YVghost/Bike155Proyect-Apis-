@@ -1,22 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Bike155Proyect.Models
 {
     public class Bike
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]
-        [JsonPropertyName("tipo")]
-        public string Tipo { get; set; } // "BMX", "DH", "Ruta"
+        public string Tipo { get; set; }
 
-        [Required]
-        [JsonPropertyName("user_id")]
+        [ForeignKey("User")]
         public int UserId { get; set; }
 
-        [JsonIgnore] 
+        [JsonIgnore]
         public User User { get; set; }
 
         [JsonIgnore]
