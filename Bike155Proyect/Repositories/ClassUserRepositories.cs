@@ -1,8 +1,7 @@
-﻿
-using Bike155Proyect.Models;
+﻿using Bike155Proyect.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bike155Proyect.Controllers
+namespace Bike155Proyect.Repositories
 {
     internal class ClassUserRepositories
     {

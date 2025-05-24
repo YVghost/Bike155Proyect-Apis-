@@ -14,7 +14,7 @@ using Bike155Proyect.Models;
 
         public DbSet<Bike155Proyect.Models.User> Users { get; set; } = default!;
 
-public DbSet<Bike155Proyect.Models.Ruta> Ruta { get; set; } = default!;
+public DbSet<Bike155Proyect.Models.Ruta> Rutas { get; set; } = default!;
 
 public DbSet<Bike155Proyect.Models.Bike> Bike { get; set; } = default!;
     }

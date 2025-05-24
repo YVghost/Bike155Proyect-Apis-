@@ -1,5 +1,6 @@
 ﻿using Bike155Proyect.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
@@ -34,16 +35,23 @@ namespace Bike155Proyect.Controllers
 
             try
             {
+                // Verifica si ya existe un usuario con el mismo correo (opcional)
+                bool existe = await _context.Users.AnyAsync(u => u.Correo == nuevoUsuario.Correo);
+                if (existe)
+                    return Conflict("Ya existe un usuario con ese correo.");
+
                 _context.Users.Add(nuevoUsuario);
                 await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(ObtenerUsuarioPorId), new { id = nuevoUsuario.Id }, nuevoUsuario);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return StatusCode(500, $"Error de base de datos: {dbEx.InnerException?.Message ?? dbEx.Message}");
             }
             catch (Exception ex)
             {
-                // Devuelve el error para diagnóstico
-                return StatusCode(500, $"Error al guardar usuario: {ex.Message}");
+                return StatusCode(500, $"Error inesperado: {ex.Message}");
             }
-
-            return CreatedAtAction(nameof(ObtenerUsuarioPorId), new { id = nuevoUsuario.Id }, nuevoUsuario);
         }
 
         // GET api/users/{id} -> obtener usuario por id
@@ -61,7 +69,7 @@ namespace Bike155Proyect.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> ModificarCorreoUsuario(int id, [FromBody] UpdateEmailDto dto)
         {
-            if (dto == null || string.IsNullOrEmpty(dto.Correo))
+            if (dto == null || string.IsNullOrWhiteSpace(dto.Correo))
                 return BadRequest("Correo inválido.");
 
             var usuario = await _context.Users.FindAsync(id);
@@ -87,6 +95,14 @@ namespace Bike155Proyect.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // GET api/users -> listar todos los usuarios
+        [HttpGet]
+        public async Task<IActionResult> ListarUsuarios()
+        {
+            var usuarios = await _context.Users.ToListAsync();
+            return Ok(usuarios);
         }
     }
 }

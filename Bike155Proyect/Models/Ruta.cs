@@ -19,10 +19,10 @@ namespace Bike155Proyect.Models
 
         [ForeignKey("User")]
         public int UserId { get; set; }
-        
-        public User User { get; set; }
 
-        public Bike Bike { get; set; }
+        public User? User { get; set; } // propiedad de navegación
+
+        public Bike? Bike { get; set; } // propiedad de navegación
 
     }
 
