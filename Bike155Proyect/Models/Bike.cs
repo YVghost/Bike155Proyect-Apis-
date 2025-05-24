@@ -11,14 +11,6 @@ namespace Bike155Proyect.Models
         [Required]
         public string Tipo { get; set; }
 
-        [ForeignKey("User")]
-        public int UserId { get; set; }
-
-        [JsonIgnore]
-        public User User { get; set; }
-
-        [JsonIgnore]
-        public ICollection<Ruta> Rutas { get; set; }
     }
 
 }

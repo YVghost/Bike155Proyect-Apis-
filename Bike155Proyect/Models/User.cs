@@ -13,8 +13,6 @@ namespace Bike155Proyect.Models
         [Required]
         public string Correo { get; set; }
 
-        [JsonIgnore]
-        public ICollection<Bike> Bikes { get; set; }
     }
 
 }

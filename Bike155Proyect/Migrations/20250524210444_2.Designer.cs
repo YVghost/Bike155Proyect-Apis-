@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bike155Proyect.Migrations
 {
     [DbContext(typeof(BikeBdMateoOrtegaHerrera))]
-    partial class BikeBdMateoOrtegaHerreraModelSnapshot : ModelSnapshot
+    [Migration("20250524210444_2")]
+    partial class _2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,12 @@ namespace Bike155Proyect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bike");
                 });
@@ -86,13 +94,20 @@ namespace Bike155Proyect.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Bike155Proyect.Models.Bike", b =>
+                {
+                    b.HasOne("Bike155Proyect.Models.User", null)
+                        .WithMany("Bikes")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Bike155Proyect.Models.Ruta", b =>
                 {
                     b.HasOne("Bike155Proyect.Models.Bike", "Bike")
-                        .WithMany()
+                        .WithMany("Rutas")
                         .HasForeignKey("BikeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -106,6 +121,16 @@ namespace Bike155Proyect.Migrations
                     b.Navigation("Bike");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Bike155Proyect.Models.Bike", b =>
+                {
+                    b.Navigation("Rutas");
+                });
+
+            modelBuilder.Entity("Bike155Proyect.Models.User", b =>
+                {
+                    b.Navigation("Bikes");
                 });
 #pragma warning restore 612, 618
         }

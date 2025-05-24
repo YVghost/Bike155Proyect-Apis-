@@ -9,18 +9,19 @@ namespace Bike155Proyect.Models
         public int Id { get; set; }
 
         [Required]
-        public string Nombre { get; set; }
-
-        [Required]
         public string Ubicacion { get; set; }
 
         [Required]
-        public string Dificultad { get; set; }
+        public DateTime Fecha { get; set; }
 
         [ForeignKey("Bike")]
         public int BikeId { get; set; }
 
-        [JsonIgnore]
+        [ForeignKey("User")]
+        public int UserId { get; set; }
+        
+        public User User { get; set; }
+
         public Bike Bike { get; set; }
 
     }
